@@ -24,7 +24,12 @@ const sensorService = new SensorApplicationService(
   readingDomain
 );
 
+function log(icon: string, message: string) {
+  console.log(`${icon} ${message}`);
+}
+
 async function main() {
+  log("🌱", "Creando sensor...");
   const sensor = await sensorService.createSensor({
     id_sensor: "S-001",
     slug: "sensor-001",
@@ -32,7 +37,9 @@ async function main() {
     description: "Sensor de humedad y temperatura",
     image: "sensor.png",
   });
+  log("✅", `Sensor creado: ${sensor.name} (${sensor.id_sensor})`);
 
+  log("🌿", "Creando planta...");
   const plant = await plantService.createPlant({
     id_plant: "P-001",
     slug: "tomate",
@@ -41,15 +48,21 @@ async function main() {
     description: "Planta de tomate",
     image: "tomate.png",
   });
+  log("✅", `Planta creada: ${plant.name} (${plant.id_plant})`);
 
+  log("🔗", "Asignando sensor a planta...");
   await plantService.assignSensor({ plantId: plant.id, sensorId: sensor.id });
+  log("✅", `Sensor ${sensor.id_sensor} asignado a ${plant.name}`);
+
+  log("📊", "Tomando lectura...");
   await sensorService.takeReading({
     sensorId: sensor.id_sensor,
     electrical_conductivity: 2.1,
-    humidity: 39,
+    humidity: 40,
     temperature: 24,
   });
-  console.log("done");
+
+  log("🎉", "Proceso completado exitosamente");
 }
 
 main();
