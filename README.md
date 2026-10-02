@@ -1,6 +1,6 @@
 # 🌱 asaaii-demo
 
-> **Demostración de metodología para crear tests unitarios con Inteligencia Artificial**
+> **A methodology demo for creating unit tests with Artificial Intelligence**
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![Vitest](https://img.shields.io/badge/Vitest-5.0+-green.svg)](https://vitest.dev/)
@@ -8,157 +8,157 @@
 
 ---
 
-## 📋 Descripción
+## 📋 Description
 
-Este proyecto es un **sistema de monitoreo de plantas con sensores** diseñado como caso de estudio para demostrar una metodología de creación de tests unitarios asistida por IA.
+This project is a **plant monitoring system with sensors** designed as a case study to demonstrate an AI-assisted unit testing methodology.
 
-El sistema permite:
-- 🌿 Crear y gestionar plantas
-- 📡 Registrar sensores de humedad, temperatura y conductividad eléctrica
-- 🔗 Asignar sensores a plantas
-- 📊 Tomar lecturas y disparar riego automático cuando la humedad < 40%
-
----
-
-## 🧠 Metodología IA para Tests
-
-Este repositorio demuestra un flujo de trabajo donde la IA ayuda a:
-
-### 1. **Análisis de Modos de Falla**
-Se identifican sistemáticamente los modos de falla usando categorías estándar:
-
-| Categoría | Pregunta clave |
-|-----------|----------------|
-| **Valores de frontera** | ¿Qué pasa justo en los límites? |
-| **Particiones de equivalencia** | ¿Qué clases de entrada se comportan distinto? |
-| **Null / Vacíos** | ¿Y si falta el dato? |
-| **Condiciones de carrera** | ¿Y si pasa dos veces a la vez? |
-| **Bypass de autorización** | ¿Puede actuar quien no debería? |
-
-### 2. **Catálogo de Fallos**
-Cada modo de falla se documenta con:
-- **ID** único
-- **Categoría** de análisis
-- **Riesgo** para el negocio
-- **Entrada** que lo desestima
-- **Comportamiento actual** observado
-- **Contrato esperado** recomendado
-- **Estado** del contrato (confirmado / pendiente)
-- **Impacto** en el negocio
-
-### 3. **Generación de Tests**
-Se crean tests unitarios **solo para contratos confirmados**, garantizando que cada test verifica un comportamiento esperado definido.
+The system allows you to:
+- 🌿 Create and manage plants
+- 📡 Register sensors for humidity, temperature, and electrical conductivity
+- 🔗 Assign sensors to plants
+- 📊 Take readings and trigger automatic irrigation when humidity < 40%
 
 ---
 
-## 📁 Estructura del Proyecto
+## 🧠 AI Testing Methodology
+
+This repository demonstrates a workflow where AI assists with:
+
+### 1. **Failure Mode Analysis**
+Failure modes are systematically identified using standard categories:
+
+| Category | Key Question |
+|----------|--------------|
+| **Boundary Values** | What happens right at the limits? |
+| **Equivalence Partitions** | Which input classes behave differently? |
+| **Null / Empty** | What if the data is missing? |
+| **Race Conditions** | What if it happens twice at once? |
+| **Authorization Bypass** | Can someone act who shouldn't be able to? |
+
+### 2. **Failure Catalog**
+Each failure mode is documented with:
+- Unique **ID**
+- **Category** of analysis
+- **Risk** to the business
+- **Input** that triggers it
+- **Current behavior** observed
+- **Expected contract** recommended
+- **Status** of the contract (confirmed / pending)
+- **Business impact**
+
+### 3. **Test Generation**
+Unit tests are created **only for confirmed contracts**, ensuring that each test verifies a defined expected behavior.
+
+---
+
+## 📁 Project Structure
 
 ```
 asaaii-demo/
 ├── core/
 │   ├── application/
 │   │   ├── dtos/              # Data Transfer Objects
-│   │   ├── ports/in/          # Casos de uso (interfaces)
-│   │   ├── services/          # Servicios de aplicación
-│   │   └── FAILURES.md        # Fallos de capa aplicación
+│   │   ├── ports/in/          # Use case ports (interfaces)
+│   │   ├── services/          # Application services
+│   │   └── FAILURES.md        # Application layer failures
 │   └── domain/
-│       ├── entities/          # Entidades del dominio
-│       ├── outbound/          # Puertos de repositorio
-│       ├── services/          # Servicios de dominio
-│       └── FAILURES.md        # Fallos de capa dominio
+│       ├── entities/          # Domain entities
+│       ├── outbound/          # Repository ports
+│       ├── services/          # Domain services
+│       └── FAILURES.md        # Domain layer failures
 ├── infrastructure/
-│   └── adapters/mock/        # Repositorios en memoria
-│   └── FAILURES.md            # Fallos de infraestructura
+│   └── adapters/mock/        # In-memory repositories
+│   └── FAILURES.md            # Infrastructure failures
 ├── docs/
-│   └── failures/              # Catálogo por categoría
-│       ├── 01-valores-frontera.md
-│       ├── 02-particiones-equivalencia.md
-│       ├── 03-null-vacios.md
-│       ├── 04-condiciones-carrera.md
-│       └── 05-bypass-autorizacion.md
-├── FAILURES.md                # Catálogo principal
-├── index.ts                   # Punto de entrada
+│   └── failures/              # Catalog by category
+│       ├── 01-boundary-values.md
+│       ├── 02-equivalence-partitions.md
+│       ├── 03-null-empty.md
+│       ├── 04-race-conditions.md
+│       └── 05-authorization-bypass.md
+├── FAILURES.md               # Main catalog
+├── index.ts                   # Entry point
 └── package.json
 ```
 
 ---
 
-## 🐛 Hallazgos Confirmados
+## 🐛 Confirmed Findings
 
-### F-004: Riego con identificador incorrecto
-**Estado:** ✅ Confirmado (bug)
+### F-004: Irrigation with incorrect identifier
+**Status:** ✅ Confirmed (bug)
 
-En `SensorApplicationService.ts:64`, la función `irrigatePlant` recibe un `sensorId` pero busca plantas por `plantid`, por lo que **nunca encuentra la planta correcta** para regar.
+In `SensorApplicationService.ts:64`, the `irrigatePlant` function receives a `sensorId` but searches for plants by `plantId`, so it **never finds the correct plant** to irrigate.
 
 ```typescript
-// ❌ Comportamiento actual (bug)
-this.irrigatePlant(sensorId)  // Busca planta por sensorId — nunca coincide
+// ❌ Current behavior (bug)
+this.irrigatePlant(sensorId)  // Searches plant by sensorId — never matches
 
-// ✅ Contrato esperado
-this.irrigatePlant(plantId)   // Buscar planta por su ID
+// ✅ Expected contract
+this.irrigatePlant(plantId)   // Search plant by its ID
 ```
 
 **Test:** `core/application/services/SensorApplicationService.takeReading.test.ts`
 
 ---
 
-## 🚀 Ejecución
+## 🚀 Running
 
-### Instalación
+### Install
 ```bash
 npm install
 ```
 
-### Ejecutar aplicación
+### Run the app
 ```bash
 npm start
 ```
 
-### Ejecutar tests
+### Run tests
 ```bash
 npm test
 ```
 
 ---
 
-## 📊 Catálogo de Modos de Falla
+## 📊 Failure Mode Catalog
 
-| ID | Categoría | Riesgo | Estado |
-|----|-----------|--------|--------|
-| F-001 | Valores de frontera | Umbral de riego ambiguo | ⏳ Pendiente |
-| F-002 | Valores de frontera | Valores físicamente imposibles | ⏳ Pendiente |
-| F-003 | Particiones de equivalencia | Lecturas de sensores inexistentes | ⏳ Pendiente |
-| **F-004** | **Particiones de equivalencia** | **Riego con ID incorrecto** | **✅ Confirmado** |
-| F-005 | Particiones de equivalencia | Asignar sensores inexistentes | ⏳ Pendiente |
-| F-006 | Null / Vacíos | 0 vs undefined indistinguibles | ⏳ Pendiente |
-| F-007 | Null / Vacíos | sensorId vacío | ⏳ Pendiente |
-| F-008 | Null / Vacíos | Campos obligatorios sin validar | ⏳ Pendiente |
-| F-009 | Condiciones de carrera | Pérdida de actualizaciones | ⏳ Pendiente |
-| F-010 | Condiciones de carrera | Creación duplicada | ⏳ Pendiente |
-| F-011 | Condiciones de carrera | Riego duplicado | ⏳ Pendiente |
-| F-012 | Bypass de autorización | Sin autenticación | ⏳ Pendiente |
-| F-013 | Bypass de autorización | Modificar recursos ajenos | ⏳ Pendiente |
-| F-014 | Bypass de autorización | Lecturas manipuladas | ⏳ Pendiente |
-
----
-
-## 🎯 Principios de la Metodología
-
-1. **No asumir que la implementación actual es correcta**
-2. **Marcar como "pendiente" lo que no se puede inferir del negocio**
-3. **Crear tests solo para contratos confirmados**
-4. **Documentar el "por qué" de cada modo de falla**
-5. **Priorizar por impacto en el negocio (pagos, datos, seguridad)**
+| ID | Category | Risk | Status |
+|----|-----------|------|--------|
+| F-001 | Boundary Values | Ambiguous irrigation threshold | ⏳ Pending |
+| F-002 | Boundary Values | Physically impossible values | ⏳ Pending |
+| F-003 | Equivalence Partitions | Readings from non-existent sensors | ⏳ Pending |
+| **F-004** | **Equivalence Partitions** | **Irrigation with wrong ID** | **✅ Confirmed** |
+| F-005 | Equivalence Partitions | Assigning non-existent sensors | ⏳ Pending |
+| F-006 | Null / Empty | 0 vs undefined indistinguishable | ⏳ Pending |
+| F-007 | Null / Empty | Empty sensorId | ⏳ Pending |
+| F-008 | Null / Empty | Required fields not validated | ⏳ Pending |
+| F-009 | Race Conditions | Lost updates | ⏳ Pending |
+| F-010 | Race Conditions | Duplicate creation | ⏳ Pending |
+| F-011 | Race Conditions | Duplicate irrigation | ⏳ Pending |
+| F-012 | Authorization Bypass | No authentication | ⏳ Pending |
+| F-013 | Authorization Bypass | Modifying others' resources | ⏳ Pending |
+| F-014 | Authorization Bypass | Manipulated readings | ⏳ Pending |
 
 ---
 
-## 📄 Licencia
+## 🎯 Methodology Principles
+
+1. **Do not assume the current implementation is correct**
+2. **Mark as "pending" what cannot be inferred from the business**
+3. **Create tests only for confirmed contracts**
+4. **Document the "why" behind each failure mode**
+5. **Prioritize by business impact (payments, data, security)**
+
+---
+
+## 📄 License
 
 ISC License
 
 ---
 
-## 👤 Autor
+## 👤 Author
 
 **Moisés Baldenegro**
 
@@ -166,6 +166,6 @@ ISC License
 
 <div align="center">
 
-**🌱 asaaii-demo** — *Metodología de tests con IA*
+**🌱 asaaii-demo** — *AI-assisted testing methodology*
 
 </div>
