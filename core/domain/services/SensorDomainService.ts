@@ -1,4 +1,4 @@
-import { Sensor } from "../entities/Sensor";
+import type { Sensor } from "../entities/Sensor.ts";
 
 export class SensorDomainService {
   createSensor(params: {

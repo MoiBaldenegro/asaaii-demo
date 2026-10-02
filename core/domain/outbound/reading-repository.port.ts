@@ -1,4 +1,4 @@
-import { SensorReading } from "../entities/SensorReading";
+import type { SensorReading } from "../entities/SensorReading.ts";
 
 export interface ReadingRepositoryPort {
   save(reading: SensorReading, sensorId: string): Promise<SensorReading>;

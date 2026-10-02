@@ -1,13 +1,16 @@
-import { Plant } from "../../domain/entities/Plant";
-import { PlantRepositoryPort } from "../../domain/outbound/plant-repository.port";
-import { PlantDomainService } from "../../domain/services/PlantDomainService";
-import { CreatePlantDto, AssignSensorDto } from "../dtos/plant.dto";
-import { PlantUseCasePort } from "../ports/in/plant-usecase.port";
+import type { Plant } from "../../domain/entities/Plant.ts";
+import type { PlantRepositoryPort } from "../../domain/outbound/plant-repository.port.ts";
+import { PlantDomainService } from "../../domain/services/PlantDomainService.ts";
+import type { CreatePlantDto, AssignSensorDto } from "../dtos/plant.dto.ts";
+import type { PlantUseCasePort } from "../ports/in/plant-usecase.port.ts";
 export class PlantApplicationService implements PlantUseCasePort {
-  constructor(
-    private readonly plantRepo: PlantRepositoryPort,
-    private readonly plantDomain: PlantDomainService
-  ) {}
+  private readonly plantRepo: PlantRepositoryPort;
+  private readonly plantDomain: PlantDomainService;
+
+  constructor(plantRepo: PlantRepositoryPort, plantDomain: PlantDomainService) {
+    this.plantRepo = plantRepo;
+    this.plantDomain = plantDomain;
+  }
 
   private generateId(): string {
     return typeof crypto !== "undefined" && "randomUUID" in crypto

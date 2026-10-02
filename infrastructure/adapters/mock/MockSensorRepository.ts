@@ -1,5 +1,5 @@
-import { Sensor } from "../../../core/domain/entities/Sensor";
-import { SensorRepositoryPort } from "../../../core/domain/outbound/sensor-repository-port";
+import type { Sensor } from "../../../core/domain/entities/Sensor.ts";
+import type { SensorRepositoryPort } from "../../../core/domain/outbound/sensor-repository-port.ts";
 
 export class MockSensorRepository implements SensorRepositoryPort {
   private sensors: Sensor[] = [];

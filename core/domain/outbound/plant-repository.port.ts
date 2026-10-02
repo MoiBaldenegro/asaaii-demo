@@ -1,4 +1,4 @@
-import { Plant } from "../entities/Plant";
+import type { Plant } from "../entities/Plant.ts";
 
 export interface PlantRepositoryPort{
     save(plant: Plant): Promise<Plant>,

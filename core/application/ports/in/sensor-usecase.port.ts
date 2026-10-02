@@ -1,6 +1,6 @@
-import { Sensor } from "../../../domain/entities/Sensor";
-import { SensorReading } from "../../../domain/entities/SensorReading";
-import { CreateSensorDto, TakeReadingDto } from "../../dtos/sensor.dto";
+import type { Sensor } from "../../../domain/entities/Sensor.ts";
+import type { SensorReading } from "../../../domain/entities/SensorReading.ts";
+import type { CreateSensorDto, TakeReadingDto } from "../../dtos/sensor.dto.ts";
 
 export interface SensorUseCasePort {
   createSensor(dto: CreateSensorDto): Promise<Sensor>;

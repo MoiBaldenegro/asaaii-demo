@@ -1,5 +1,5 @@
-import { Plant } from "../../../domain/entities/Plant";
-import { CreatePlantDto, AssignSensorDto } from "../../dtos/plant.dto";
+import type { Plant } from "../../../domain/entities/Plant.ts";
+import type { CreatePlantDto, AssignSensorDto } from "../../dtos/plant.dto.ts";
 
 export interface PlantUseCasePort {
   createPlant(dto: CreatePlantDto): Promise<Plant>;

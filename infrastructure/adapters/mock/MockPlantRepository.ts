@@ -1,5 +1,5 @@
-import { Plant } from "../../../core/domain/entities/Plant";
-import { PlantRepositoryPort } from "../../../core/domain/outbound/plant-repository.port";
+import type { Plant } from "../../../core/domain/entities/Plant.ts";
+import type { PlantRepositoryPort } from "../../../core/domain/outbound/plant-repository.port.ts";
 
 export class MockPlantRepository implements PlantRepositoryPort {
   private plants: Plant[] = [];

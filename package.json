@@ -1,0 +1,26 @@
+{
+  "name": "asaaii-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "tsx index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MoiBaldenegro/asaaii-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MoiBaldenegro/asaaii-demo/issues"
+  },
+  "homepage": "https://github.com/MoiBaldenegro/asaaii-demo#readme",
+  "dependencies": {
+    "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

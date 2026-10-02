@@ -1,5 +1,5 @@
-import { SensorReading } from "../../../core/domain/entities/SensorReading";
-import { ReadingRepositoryPort } from "../../../core/domain/outbound/reading-repository.port";
+import type { SensorReading } from "../../../core/domain/entities/SensorReading.ts";
+import type { ReadingRepositoryPort } from "../../../core/domain/outbound/reading-repository.port.ts";
 
 export class MockReadingRepository implements ReadingRepositoryPort {
   private readings: Array<SensorReading & { sensorId: string }> = [];

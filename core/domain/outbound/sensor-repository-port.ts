@@ -1,4 +1,4 @@
-import { Sensor } from "../entities/Sensor";
+import type { Sensor } from "../entities/Sensor.ts";
 
 export interface SensorRepositoryPort {
   save(sensor: Sensor): Promise<Sensor>;

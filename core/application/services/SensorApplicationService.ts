@@ -1,20 +1,32 @@
-import { Sensor } from "../../domain/entities/Sensor";
-import { SensorReading } from "../../domain/entities/SensorReading";
-import { SensorRepositoryPort } from "../../domain/outbound/sensor-repository-port";
-import { ReadingRepositoryPort } from "../../domain/outbound/reading-repository.port";
-import { PlantRepositoryPort } from "../../domain/outbound/plant-repository.port";
-import { SensorDomainService } from "../../domain/services/SensorDomainService";
-import { ReadingDomainService } from "../../domain/services/ReadingDomainService";
-import { CreateSensorDto, TakeReadingDto } from "../dtos/sensor.dto";
-import { SensorUseCasePort } from "../ports/in/sensor-usecase.port";
+import type { Sensor } from "../../domain/entities/Sensor.ts";
+import type { SensorReading } from "../../domain/entities/SensorReading.ts";
+import type { SensorRepositoryPort } from "../../domain/outbound/sensor-repository-port.ts";
+import type { ReadingRepositoryPort } from "../../domain/outbound/reading-repository.port.ts";
+import type { PlantRepositoryPort } from "../../domain/outbound/plant-repository.port.ts";
+import { SensorDomainService } from "../../domain/services/SensorDomainService.ts";
+import { ReadingDomainService } from "../../domain/services/ReadingDomainService.ts";
+import type { CreateSensorDto, TakeReadingDto } from "../dtos/sensor.dto.ts";
+import type { SensorUseCasePort } from "../ports/in/sensor-usecase.port.ts";
 export class SensorApplicationService implements SensorUseCasePort {
+  private readonly sensorRepo: SensorRepositoryPort;
+  private readonly readingRepo: ReadingRepositoryPort;
+  private readonly plantRepo: PlantRepositoryPort;
+  private readonly sensorDomain: SensorDomainService;
+  private readonly readingDomain: ReadingDomainService;
+
   constructor(
-    private readonly sensorRepo: SensorRepositoryPort,
-    private readonly readingRepo: ReadingRepositoryPort,
-    private readonly plantRepo: PlantRepositoryPort,
-    private readonly sensorDomain: SensorDomainService,
-    private readonly readingDomain: ReadingDomainService
-  ) {}
+    sensorRepo: SensorRepositoryPort,
+    readingRepo: ReadingRepositoryPort,
+    plantRepo: PlantRepositoryPort,
+    sensorDomain: SensorDomainService,
+    readingDomain: ReadingDomainService
+  ) {
+    this.sensorRepo = sensorRepo;
+    this.readingRepo = readingRepo;
+    this.plantRepo = plantRepo;
+    this.sensorDomain = sensorDomain;
+    this.readingDomain = readingDomain;
+  }
 
   private generateId(): string {
     return typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -47,7 +59,11 @@ export class SensorApplicationService implements SensorUseCasePort {
       humidity: dto.humidity ?? 0,
       temperature: dto.temperature ?? 0,
     });
-    return this.readingRepo.save(reading, sensorId);
+    const savedReading = await this.readingRepo.save(reading, sensorId);
+    if(reading.humidity < 40) {
+      this.irrigatePlant(sensorId).catch((err) => console.error("Error irrigating plant:", err));
+    }
+    return savedReading;
   }
 
   async irrigatePlant(plantId: string): Promise<void> {

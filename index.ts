@@ -1,11 +1,11 @@
-import { MockPlantRepository } from "./infrastructure/adapters/mock/MockPlantRepository";
-import { MockSensorRepository } from "./infrastructure/adapters/mock/MockSensorRepository";
-import { MockReadingRepository } from "./infrastructure/adapters/mock/MockReadingRepository";
-import { PlantDomainService } from "./core/domain/services/PlantDomainService";
-import { SensorDomainService } from "./core/domain/services/SensorDomainService";
-import { ReadingDomainService } from "./core/domain/services/ReadingDomainService";
-import { PlantApplicationService } from "./core/application/services/PlantApplicationService";
-import { SensorApplicationService } from "./core/application/services/SensorApplicationService";
+import { MockPlantRepository } from "./infrastructure/adapters/mock/MockPlantRepository.ts";
+import { MockSensorRepository } from "./infrastructure/adapters/mock/MockSensorRepository.ts";
+import { MockReadingRepository } from "./infrastructure/adapters/mock/MockReadingRepository.ts";
+import { PlantDomainService } from "./core/domain/services/PlantDomainService.ts";
+import { SensorDomainService } from "./core/domain/services/SensorDomainService.ts";
+import { ReadingDomainService } from "./core/domain/services/ReadingDomainService.ts";
+import { PlantApplicationService } from "./core/application/services/PlantApplicationService.ts";
+import { SensorApplicationService } from "./core/application/services/SensorApplicationService.ts";
 
 const plantRepo = new MockPlantRepository();
 const sensorRepo = new MockSensorRepository();
@@ -46,10 +46,9 @@ async function main() {
   await sensorService.takeReading({
     sensorId: sensor.id_sensor,
     electrical_conductivity: 2.1,
-    humidity: 65,
+    humidity: 39,
     temperature: 24,
   });
-  await sensorService.irrigatePlant(plant.id);
   console.log("done");
 }
 
