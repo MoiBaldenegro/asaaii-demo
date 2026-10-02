@@ -53,15 +53,20 @@ export class SensorApplicationService implements SensorUseCasePort {
   async takeReading(dto: TakeReadingDto): Promise<SensorReading> {
     const sensor = await this.sensorRepo.getByIdSensor(dto.sensorId).catch(() => null);
     const sensorId = sensor ? sensor.id : dto.sensorId;
+    const plants = await this.plantRepo.getList();
+    const plant = plants.find((p) => p.sensor_id === sensorId);
+    const plantId = plant ? plant.id : "";
     const reading = this.readingDomain.createReading({
       id: this.generateId(),
+      plant_id: plantId,
+      sensor_id: sensorId,
       electrical_conductivity: dto.electrical_conductivity ?? 0,
       humidity: dto.humidity ?? 0,
       temperature: dto.temperature ?? 0,
     });
     const savedReading = await this.readingRepo.save(reading, sensorId);
     if(reading.humidity < 40) {
-      this.irrigatePlant(sensorId).catch((err) => console.error("Error irrigating plant:", err));
+      this.irrigatePlant(reading.plant_id).catch((err) => console.error("Error irrigating plant:", err));
     }
     return savedReading;
   }

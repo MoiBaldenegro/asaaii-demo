@@ -14,17 +14,17 @@ export class MockReadingRepository implements ReadingRepositoryPort {
 
   async getById(id: string): Promise<SensorReading | null> {
     const r = this.readings.find((x) => x.id === id);
-    return r ? { id: r.id, electrical_conductivity: r.electrical_conductivity, humidity: r.humidity, temperature: r.temperature } : null;
+    return r ? { id: r.id, plant_id: r.plant_id, sensor_id: r.sensorId, electrical_conductivity: r.electrical_conductivity, humidity: r.humidity, temperature: r.temperature } : null;
   }
 
   async getLatestBySensorId(sensorId: string): Promise<SensorReading | null> {
     const r = [...this.readings].reverse().find((x) => x.sensorId === sensorId);
-    return r ? { id: r.id, electrical_conductivity: r.electrical_conductivity, humidity: r.humidity, temperature: r.temperature } : null;
+    return r ? { id: r.id, plant_id: r.plant_id, sensor_id: r.sensorId, electrical_conductivity: r.electrical_conductivity, humidity: r.humidity, temperature: r.temperature } : null;
   }
 
   async getAllBySensorId(sensorId: string): Promise<SensorReading[]> {
     return this.readings
       .filter((x) => x.sensorId === sensorId)
-      .map((r) => ({ id: r.id, electrical_conductivity: r.electrical_conductivity, humidity: r.humidity, temperature: r.temperature }));
+      .map((r) => ({ id: r.id, plant_id: r.plant_id, sensor_id: r.sensorId, electrical_conductivity: r.electrical_conductivity, humidity: r.humidity, temperature: r.temperature }));
   }
 }
